@@ -1,0 +1,335 @@
+openapi: 3.1.0
+info:
+  title: Fantasy Football API
+  description: API for managing and retrieving fantasy football data.
+  version: 1.0.0
+servers:
+  - url: https://gpt-fantasy-football.fly.dev/
+    description: Local development server
+
+paths:
+  /get-available-players:
+    get:
+      summary: Get Available Players by Position
+      description: Retrieves a list of available players for a specified position.
+      operationId: getAvailablePlayers
+      parameters:
+        - name: position
+          in: query
+          required: false
+          schema:
+            type: string
+            example: RB
+            enum: [QB, RB, WR, TE, K, DEF, ALL]
+          description: The position you’re interested in (e.g., RB, WR, QB, etc.).
+      responses:
+        '200':
+          description: A list of available players
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  players:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Player 1
+                        team:
+                          type: string
+                          example: Team A
+                        rank:
+                          type: integer
+                          example: 5
+                        projected_points:
+                          type: number
+                          example: 150.4
+        '500':
+          description: Error retrieving players
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to retrieve players
+
+  /get-best-available-player:
+    get:
+      summary: Get Best Available Player
+      description: Returns the best available player overall based on the latest draft information.
+      operationId: getBestAvailablePlayer
+      responses:
+        '200':
+          description: The best available player
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  player:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Player 1
+                      position:
+                        type: string
+                        example: WR
+                      team:
+                        type: string
+                        example: Team C
+                      rank:
+                        type: integer
+                        example: 3
+                      projected_points:
+                        type: number
+                        example: 160.5
+        '500':
+          description: Error retrieving best player
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to retrieve best player
+
+  /suggest-next-pick:
+    get:
+      summary: Suggest Next Pick
+      description: Suggests the best player to pick next based on current roster and draft trends.
+      operationId: suggestNextPick
+      responses:
+        '200':
+          description: Suggested next pick
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  suggested_pick:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Player 3
+                      position:
+                        type: string
+                        example: WR
+                      team:
+                        type: string
+                        example: Team D
+                      rank:
+                        type: integer
+                        example: 15
+                      projected_points:
+                        type: number
+                        example: 120.8
+        '500':
+          description: Error suggesting next pick
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to retrieve suggested pick
+
+  /get-current-roster:
+    get:
+      summary: Get Current Roster
+      description: Returns the current roster based on real-time draft data.
+      operationId: getCurrentRoster
+      responses:
+        '200':
+          description: Current roster
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  roster:
+                    type: object
+                    properties:
+                      QB:
+                        type: array
+                        items:
+                          type: string
+                          example: Player A
+                      RB:
+                        type: array
+                        items:
+                          type: string
+                          example: Player B
+                      WR:
+                        type: array
+                        items:
+                          type: string
+                          example: Player D
+                      TE:
+                        type: array
+                        items:
+                          type: string
+                          example: Player E
+                      FLEX:
+                        type: array
+                        items:
+                          type: string
+                          example: Player F
+                      K:
+                        type: array
+                        items:
+                          type: string
+                          example: Player G
+                      DEF:
+                        type: array
+                        items:
+                          type: string
+                          example: Player H
+        '500':
+          description: Error retrieving current roster
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to retrieve current roster
+
+  /get-draft-summary:
+    get:
+      summary: Get Draft Summary
+      description: Provides a summary of the draft, including all players drafted by all teams so far.
+      operationId: getDraftSummary
+      responses:
+        '200':
+          description: Draft summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  draft_summary:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        team_name:
+                          type: string
+                          example: Team A
+                        players:
+                          type: array
+                          items:
+                            type: string
+                            example: Player 1
+        '500':
+          description: Error retrieving draft summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to retrieve draft summary
+
+  /projected-winner:
+    get:
+      summary: Get Projected Winner
+      description: Returns the team projected to win the league based on current and projected performance.
+      operationId: getProjectedWinner
+      responses:
+        '200':
+          description: Projected winner of the league
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  projected_winner:
+                    type: object
+                    properties:
+                      team_id:
+                        type: string
+                        example: 1
+                      team_name:
+                        type: string
+                        example: The Champions
+                      owner_name:
+                        type: string
+                        example: John Doe
+                      total_points:
+                        type: number
+                        example: 1234.5
+                      projected_points:
+                        type: number
+                        example: 987.6
+                      wins:
+                        type: integer
+                        example: 10
+                      losses:
+                        type: integer
+                        example: 2
+                      ties:
+                        type: integer
+                        example: 0
+                      rank:
+                        type: integer
+                        example: 1
+                      schedule_strength:
+                        type: number
+                        example: 75.3
+        '500':
+          description: Error retrieving projected winner
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to retrieve projected winner
