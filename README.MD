@@ -25,8 +25,8 @@ Before you start, ensure you have the following installed on your system:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/fantasy-draft-assistance.git
-cd fantasy-draft-assistance
+git clone https://github.com/odiosdado/gpt-fantasy-football.git
+cd gpt-fantasy-football
 ```
 ### 2. Create and Activate a Virtual Environment
 It's recommended to use a virtual environment to manage dependencies:
